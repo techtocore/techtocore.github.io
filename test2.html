@@ -2,15 +2,71 @@
     <body>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <br/>
-            <br/>  
-            <h1 style="font-family:calibri; text-align:center; color:LightSlateGray">Hey there</h1>
-            <br/>
+            <h1 style="font-family:calibri; text-align:center; color:LightSlateGray">Hey there!</h1>
             <br/>
             <a href="https://www.accuweather.com/en/in/bengaluru/204108/weather-forecast/204108" class="aw-widget-legal">
                 <!--
                 By accessing and/or using this code snippet, you agree to AccuWeather’s terms and conditions (in English) which can be found at https://www.accuweather.com/en/free-weather-widgets/terms and AccuWeather’s Privacy Statement (in English) which can be found at https://www.accuweather.com/en/privacy.
                 -->
                 </a><div id="awcc1521609399929" class="aw-widget-current"  data-locationkey="" data-unit="c" data-language="en-us" data-useip="true" data-uid="awcc1521609399929"></div><script type="text/javascript" src="https://oap.accuweather.com/launch.js"></script>
-       
+       <br/>
+       <script type="text/javascript">
+        $(function() {
+            var widget_id = undefined;
+            var widget_parameter = '{"type":"","sources":[{"source":"http://indiatogether.org/rss/category/agriculture","type":"","replaceable":"false"}],"name":"","width":0,"height":0,"card_height":"300","height_by_article":"5","target":"_blank","font":"Arial, Helvetica, sans-serif","title_font_size":"16","item_title_font_size":"16","item_description_font_size":"12","border":"on","css_url":"","keyword_inc":"","keyword_exc":"","responsive":"on","text_direction":"left","remove_duplicate_article":"off","thumbnail_position":"left","text_alignment":"left","corner":"rounded","scroll_switch":"on","scroll_style":"vs","scroll":"on","navigation_arrow":"on","auto_scroll":"off","auto_scroll_direction":"up","auto_scroll_step_speed":"4","auto_scroll_mc_speed":"20","sort":"new","title":"on","title_sentence":"Agriculture News","title_link":"","title_bgcolor":"#ffffff","title_color":"#505659","widget_title_bold":"off","feed_title_bold":"off","title_bgimage":"","item_bgcolor":"#ffffff","item_bgimage":"","item_title_length":"55","item_title_color":"#2e7ec8","item_border_bottom":"on","item_description":"both","item_link":"off","item_description_length":"100","item_description_color":"#505659","item_date":"on","item_date_format":"%b %e, %Y %l:%M %p","item_date_timezone":"","item_display_title":"off","item_display_description":"off","item_display_date":"off","item_display_location":"off","item_description_style":"thumbnail","item_thumbnail":"crop","item_thumbnail_selection":"auto","item_thumbnail_force_https":"off","branding":"off","article_num":"10","item_player":"off","item_image_scale":"best-fill","item_image_align":"top","item_alt_image_link":"","item_date_time_size":"12","item_date_time_color":"#505659"}';
+        
+            $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+                options.async = true;
+                options.xhrFields = {withCredentials: true};
+            });
+        
+            $.post('https://feed.mikle.com/api/widget/read/body/', {widget_id: widget_id, widget_parameter: widget_parameter}, function (data) {
+                if (data.status == 'ok') {
+                    $('#loading').fadeOut('fast', function() {
+                        if (data.response.expired) {
+                            $('#error').html(data.message);
+                            $('#error').show();
+                        } else {
+                            $('body').html(data.response.widget);
+        
+                            if ($('#fw-custom-css[data-fw-css-href]')[0]) {
+                                var href = $('#fw-custom-css').attr('data-fw-css-href');
+                                                        if (href.match(/^http:\/\//)) {
+                                    $('#fw-custom-css').attr('href', 'https://feed.mikle.com/api/proxy/' + href);
+                                } else {
+                                    $('#fw-custom-css').attr('href', href);
+                                }
+                                                    }
+        
+                            $('img[data-fw-img-src]').each(function() {
+                                var src = $(this).attr('data-fw-img-src');
+                                                        if (src.match(/^http:\/\//)) {
+                                    $(this).attr('src', 'https://feed.mikle.com/api/proxy/' + src);
+                                } else {
+                                    $(this).attr('src', src);
+                                }
+                                                        
+                                if($(this).attr('data-scale')) {
+                                    $(this).imageScale({
+                                          rescaleOnResize: true
+                                      });
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    $('#loading').fadeOut('fast', function() {
+                        $('#error').html(data.message);
+                        $('#error').show();
+                    });
+                }
+            }, 'json').fail(function(data){
+                $('#loading').fadeOut('fast', function() {
+                    $('#error').html("Please try again later. If this problem persists, please <a href='https://feed.mikle.com/contact/' target='_blank'>contact us</a>. This error can be caused by a network time-out or general Internet connection issues.");
+                    $('#error').show();
+                });
+            });
+        });
+        </script>
     </body>
 </html>
