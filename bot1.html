@@ -1,6 +1,83 @@
+bp.hear(/GET_STARTED|hello|hi|test|hey|holla/i, (event, next) => {
+  event.reply('#welcome') // See the file `content.yml` to see the block
+  event.reply('#ask1')
+})
+
+bp.hear(/I am a student/i, (event, next) => {
+  event.reply('#new_feature') // See the file `content.yml` to see the block
+})
+
+bp.hear(/I am a faculty/i, (event, next) => {
+  event.reply('#facultySis') // See the file `content.yml` to see the block
+  event.reply('#ask2')
+})
+
+bp.hear(/Check enrollment in a program/i, (event, next) => {
+  event.reply('#ask3')
+})
+
+bp.hear(/Edit details/i, (event, next) => {
+  event.reply('#new_feature')
+})
+
+bp.hear(/no of students in (.+)|students in (.+)|enrollments in (.+)|there in (.+)|Strength in (.+)/i, (event, next) => {
+  //event.reply("yedhukku") // See the file `content.yml` to see the block
+  //event.reply(event.captured[0])
+  //var deg = event.captured[2];
+  var deg = "jhi";
+  for (var i = 0; i < 5; i++) {
+    if (event.captured[i]) {
+      deg = event.captured[i];
+      break;
+    }
+  }
+
+  console.log(deg);
+  var ans = "hi";
+
+  var options = {
+    method: 'POST',
+    url: 'http://10.1.31.248/sis/students/botTest',
+    headers:
+    {
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'application/json'
+    },
+    body:
+    {
+      course: deg
+    },
+    json: true
+  };
+
+  request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+    //console.log(body);
+    ans = body.number;
+    if (ans == "0") {
+      event.reply('#error')
+    }
+    else
+      event.reply('#sayNum', { deg: ans })
+  });
+
+  //event.reply('#sayNum', { deg: ans })
+})
+
+// You can also pass a matcher object to better filter events
 bp.hear({
-    type: /message|text/i,
-    text: /akash/i
-  }, (event, next) => {
-    event.reply('#goodbye')
+  type: /message|text/i,
+  text: /exit|bye|goodbye|quit|done|leave|stop/i
+}, (event, next) => {
+  event.reply('#goodbye', {
+    // You can pass data to the UMM bloc!
+    reason: 'unknown'
   })
+})
+
+bp.hear({
+  type: /message|text/i,
+  text: /.+/i
+}, (event, next) => {
+  event.reply('#invalid')
+})

@@ -3,9 +3,10 @@ welcome: # this is the #welcome bloc referenced in index.js
     text: # Picks one randomly
       - Hey there!
       - Good day :)
+      - Hello
+      - Hii
   - text:  I am a bot to help you interact with PSG's SIS system
-    typing: 2s
-  - wait: 2s
+    typing: 1s
   - text: How may I help you?
     typing: 1s
 
@@ -45,6 +46,34 @@ error:
 invalid:
   -text: Sorry, I can't understand that
 
+facultySis:
+  - typing: true
+    text: Welcome to SIS faculty portal  
+
 new_feature:
   - typing: true
     text: This feature will be updated soon!! 
+
+ask1:
+  - wait: 5s
+  - text: Select your choice
+    quick_replies:
+      - <.B1> I am a faculty #Starting with a '.' before B1 will prepend the name of the bloc in uppercase
+      - <.B2> I am a student
+
+ask2:
+  - wait: 3s
+  - text: Select your choice
+    quick_replies:
+      - <.B1> Check enrollment in a program #Starting with a '.' before B1 will prepend the name of the bloc in uppercase
+      - <.B2> Edit details
+
+ask3:
+  - text: Select your choice
+    quick_replies:
+      - <.B1> Strength in BE
+      - <.B2> Strength in BTech
+      - <.B3> Strength in BSc
+      - <.B4> Strength in ME
+      - <.B5> Strength in MSc
+      - <.B6> Strength in MCA
