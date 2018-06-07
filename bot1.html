@@ -1,0 +1,6 @@
+bp.hear({
+    type: /message|text/i,
+    text: /akash/i
+  }, (event, next) => {
+    event.reply('#goodbye')
+  })
