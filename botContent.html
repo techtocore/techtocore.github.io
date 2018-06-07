@@ -1,0 +1,50 @@
+welcome: # this is the #welcome bloc referenced in index.js
+  - typing: true
+    text: # Picks one randomly
+      - Hey there!
+      - Good day :)
+  - text:  I am a bot to help you interact with PSG's SIS system
+    typing: 2s
+  - wait: 2s
+  - text: How may I help you?
+    typing: 1s
+
+goodbye:
+  - text: Hope to see you back again soon!
+    typing: true
+  - Byee # if no other properties, you can just send a strings
+
+sayNum:
+  - typing: true
+    text:
+      - The current strength is {{deg}}
+      - {{deg}} students are currently enrolled 
+
+
+attendance:
+  - typing: true
+    text: Attendance is {{attendance}}
+
+CA_mark:
+  - typing: true
+    text: Required marks {{mark}}
+
+
+Count:
+  - typing: true
+    text: Required strength {{strength}}
+
+Happenings:
+  - typing: true
+    text: The event(s) around college  {{even}}
+
+
+error:
+  -text: Enter the details properly  
+
+invalid:
+  -text: Sorry, I can't understand that
+
+new_feature:
+  - typing: true
+    text: This feature will be updated soon!! 
