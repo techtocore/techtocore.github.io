@@ -21,19 +21,19 @@ bp.hear(/Edit details/i, (event, next) => {
 })
 
 bp.hear(/no of students in (.+)|students in (.+)|enrollments in (.+)|there in (.+)|Strength in (.+)/i, (event, next) => {
-  //event.reply("yedhukku") // See the file `content.yml` to see the block
-  //event.reply(event.captured[0])
-  //var deg = event.captured[2];
-  var deg = "jhi";
-  for (var i = 0; i < 5; i++) {
-    if (event.captured[i]) {
+  
+  var deg = "string";
+  for (var i = 0; i < 5; i++) //no of iterations should be equal to the number of possibilities mentioned above
+  { 
+    if (event.captured[i]) //matching the correct parameter received as an input
+    {
       deg = event.captured[i];
       break;
     }
   }
 
   console.log(deg);
-  var ans = "hi";
+  var ans = "string";
 
   var options = {
     method: 'POST',
@@ -61,7 +61,6 @@ bp.hear(/no of students in (.+)|students in (.+)|enrollments in (.+)|there in (.
       event.reply('#sayNum', { deg: ans })
   });
 
-  //event.reply('#sayNum', { deg: ans })
 })
 
 // You can also pass a matcher object to better filter events
